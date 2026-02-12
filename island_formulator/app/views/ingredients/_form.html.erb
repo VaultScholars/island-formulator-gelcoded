@@ -1,0 +1,63 @@
+<%= form_with(model: ingredient, class: "max-w-2xl mx-auto bg-white shadow-lg rounded-xl p-6 space-y-6") do |form| %>
+
+  <% if ingredient.errors.any? %>
+    <div class="bg-red-50 text-red-600 px-4 py-3 rounded-md">
+      <h2 class="font-semibold mb-2">
+        <%= pluralize(ingredient.errors.count, "error") %> prohibited this ingredient from being saved:
+      </h2>
+
+      <ul class="list-disc ml-6 text-sm">
+        <% ingredient.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Name -->
+  <div>
+    <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_field :name,
+      class: [
+        "mt-1 block w-full rounded-md shadow-sm px-3 py-2 border focus:ring-2 focus:ring-emerald-500 focus:outline-none",
+        ingredient.errors[:name].any? ? "border-red-400" : "border-gray-300"
+      ] %>
+  </div>
+
+  <!-- Category -->
+  <div>
+    <%= form.label :category, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_field :category,
+      class: [
+        "mt-1 block w-full rounded-md shadow-sm px-3 py-2 border focus:ring-2 focus:ring-emerald-500 focus:outline-none",
+        ingredient.errors[:category].any? ? "border-red-400" : "border-gray-300"
+      ] %>
+  </div>
+
+  <!-- Description -->
+  <div>
+    <%= form.label :description, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.textarea :description, rows: 4,
+      class: [
+        "mt-1 block w-full rounded-md shadow-sm px-3 py-2 border focus:ring-2 focus:ring-emerald-500 focus:outline-none",
+        ingredient.errors[:description].any? ? "border-red-400" : "border-gray-300"
+      ] %>
+  </div>
+
+  <!-- Notes -->
+  <div>
+    <%= form.label :notes, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.textarea :notes, rows: 4,
+      class: [
+        "mt-1 block w-full rounded-md shadow-sm px-3 py-2 border focus:ring-2 focus:ring-emerald-500 focus:outline-none",
+        ingredient.errors[:notes].any? ? "border-red-400" : "border-gray-300"
+      ] %>
+  </div>
+
+  <!-- Submit -->
+  <div class="pt-4">
+    <%= form.submit "Save Ingredient",
+      class: "w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-6 py-2.5 rounded-md transition duration-200 cursor-pointer" %>
+  </div>
+
+<% end %>
