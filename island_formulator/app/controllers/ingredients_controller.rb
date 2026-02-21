@@ -63,6 +63,10 @@ class IngredientsController < ApplicationController
       @ingredient = Ingredient.find(params.expect(:id))
     end
 
+    def ingredient_params
+      params.require(:ingredient).permit(:name, :category, :description, :photo)
+    end
+
     # Only allow a list of trusted parameters through.
     def ingredient_params
       params.expect(ingredient: [ :name, :category, :description, :notes, tag_ids: [] ])
