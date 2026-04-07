@@ -1,0 +1,91 @@
+<% content_for :title, "Inventory items" %>
+
+<div class="w-full">
+  <% if notice.present? %>
+    <div class="mb-6 flex justify-center">
+      <p class="py-3 px-6 bg-purple-50 text-purple-500 font-medium rounded-full border-2 border-purple-200 shadow-sm flex items-center gap-2" id="notice">
+        <span>✨</span> <%= notice %> <span>✨</span>
+      </p>
+    </div>
+  <% end %>
+
+  <div class="flex justify-between items-center mb-6">
+    <div class="flex items-center gap-3">
+      <span class="text-4xl">📦</span>
+      <h1 class="font-bold text-4xl text-purple-700">Inventory</h1>
+    </div>
+    <%= link_to new_inventory_item_path, 
+        class: "group flex items-center gap-2 bg-purple-400 hover:bg-purple-500 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 shadow-sm hover:shadow-md border-2 border-transparent hover:border-purple-300" do %>
+      <span>✨</span>
+      <span>New Inventory Item</span>
+      <span class="group-hover:translate-x-1 transition-transform">→</span>
+    <% end %>
+  </div>
+
+  <!-- Decorative line -->
+  <div class="w-32 h-1 bg-gradient-to-r from-purple-300 to-pink-300 rounded-full mb-8"></div>
+
+  <div id="inventory_items" class="min-w-full mt-8">
+    <div class="overflow-x-auto shadow-lg rounded-xl border-2 border-purple-100">
+      <table class="min-w-full bg-white">
+        <thead class="bg-purple-50 border-b-2 border-purple-200">
+          <tr>
+            <th class="px-6 py-4 text-left text-xs font-bold text-purple-600 uppercase tracking-wider">Ingredient</th>
+            <th class="px-6 py-4 text-left text-xs font-bold text-purple-600 uppercase tracking-wider">Brand</th>
+            <th class="px-6 py-4 text-left text-xs font-bold text-purple-600 uppercase tracking-wider">Size</th>
+            <th class="px-6 py-4 text-left text-xs font-bold text-purple-600 uppercase tracking-wider">Location</th>
+            <th class="px-6 py-4 text-left text-xs font-bold text-purple-600 uppercase tracking-wider">Purchased</th>
+            <th class="px-6 py-4 text-right text-xs font-bold text-purple-600 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-purple-100">
+          <% @inventory_items.each do |item| %>
+            <tr class="hover:bg-purple-50 transition-colors">
+              <td class="px-6 py-4 whitespace-nowrap font-medium text-purple-800">
+                <div class="flex items-center gap-2">
+                  <% if item.photo.attached? %>
+                    <span class="text-lg">📸</span>
+                  <% else %>
+                    <span class="text-lg">📦</span>
+                  <% end %>
+                  <%= item.ingredient.name %>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-purple-600"><%= item.brand %></td>
+              <td class="px-6 py-4 whitespace-nowrap text-purple-600"><%= item.size %></td>
+              <td class="px-6 py-4 whitespace-nowrap text-purple-600"><%= item.location %></td>
+              <td class="px-6 py-4 whitespace-nowrap text-purple-600"><%= item.purchase_date.strftime("%b %d, %Y") %></td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <%= link_to item, class: "text-purple-400 hover:text-purple-600 mr-3 transition-colors" do %>
+                  <span class="flex items-center gap-1">👁️ Show</span>
+                <% end %>
+                <%= link_to edit_inventory_item_path(item), class: "text-purple-400 hover:text-purple-600 transition-colors" do %>
+                  <span class="flex items-center gap-1">✏️ Edit</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Empty State (if no items) -->
+  <% if @inventory_items.empty? %>
+    <div class="text-center py-16 bg-purple-50/80 backdrop-blur-sm rounded-2xl border-2 border-dashed border-purple-200 mt-8">
+      <span class="text-6xl block mb-4">📦✨</span>
+      <p class="text-purple-400 text-lg mb-4">No inventory items found.</p>
+      <p class="text-purple-300 mb-6">Ready to start tracking?</p>
+      <%= link_to new_inventory_item_path, class: "inline-flex items-center gap-2 bg-purple-400 hover:bg-purple-500 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 shadow-sm" do %>
+        <span>✨</span>
+        <span>Add Your First Item</span>
+        <span>✨</span>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- Cute footer -->
+  <div class="mt-10 text-center text-purple-300 text-sm">
+    ✦ ✦ ✦ ✦ ✦
+  </div>
+</div>

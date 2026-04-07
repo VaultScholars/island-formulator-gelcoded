@@ -1,0 +1,221 @@
+<div class="w-full">
+  <!-- Welcome Header -->
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="font-bold text-4xl text-purple-800 flex items-center gap-2">
+      <span class="animate-pulse">💜</span>
+      Welcome back, <%= current_user.email_address.split('@').first.capitalize %>!
+      <span class="animate-pulse" style="animation-delay: 0.3s">💜</span>
+    </h1>
+    <div class="text-sm text-purple-400 bg-purple-50 px-4 py-2 rounded-full border-2 border-purple-200 shadow-sm flex items-center gap-2">
+      <span>🌸</span>
+      <%= Time.now.strftime("%A, %B %d, %Y") %>
+    </div>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 my-8">
+    <!-- Ingredients Card -->
+    <div class="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-md border-t-4 border-purple-300 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-purple-400 uppercase text-xs font-bold flex items-center gap-1">
+          <span>🥥</span> Ingredients
+        </p>
+        <span class="text-2xl">✨</span>
+      </div>
+      <p class="text-3xl font-bold text-purple-700"><%= @stats[:ingredients] %></p>
+      <%= link_to ingredients_path, class: "text-xs text-purple-400 hover:text-purple-600 mt-2 block group" do %>
+        <span class="flex items-center gap-1">
+          View all <span class="group-hover:translate-x-1 transition-transform">→</span>
+        </span>
+      <% end %>
+    </div>
+
+    <!-- Recipes Card -->
+    <div class="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-md border-t-4 border-purple-400 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-purple-400 uppercase text-xs font-bold flex items-center gap-1">
+          <span>📖</span> Recipes
+        </p>
+        <span class="text-2xl">🌟</span>
+      </div>
+      <p class="text-3xl font-bold text-purple-700"><%= @stats[:recipes] %></p>
+      <%= link_to recipes_path, class: "text-xs text-purple-400 hover:text-purple-600 mt-2 block group" do %>
+        <span class="flex items-center gap-1">
+          View all <span class="group-hover:translate-x-1 transition-transform">→</span>
+        </span>
+      <% end %>
+    </div>
+
+    <!-- Inventory Items Card -->
+    <div class="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-md border-t-4 border-purple-500 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-purple-400 uppercase text-xs font-bold flex items-center gap-1">
+          <span>📦</span> Inventory
+        </p>
+        <span class="text-2xl">💫</span>
+      </div>
+      <p class="text-3xl font-bold text-purple-700"><%= @stats[:inventory] %></p>
+      <%= link_to inventory_items_path, class: "text-xs text-purple-400 hover:text-purple-600 mt-2 block group" do %>
+        <span class="flex items-center gap-1">
+          View all <span class="group-hover:translate-x-1 transition-transform">→</span>
+        </span>
+      <% end %>
+    </div>
+
+    <!-- Batches Card -->
+    <div class="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-md border-t-4 border-purple-600 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-purple-400 uppercase text-xs font-bold flex items-center gap-1">
+          <span>🧪</span> Batches
+        </p>
+        <span class="text-2xl">✨</span>
+      </div>
+      <p class="text-3xl font-bold text-purple-700"><%= @stats[:batches] %></p>
+      <%= link_to batches_path, class: "text-xs text-purple-400 hover:text-purple-600 mt-2 block group" do %>
+        <span class="flex items-center gap-1">
+          View all <span class="group-hover:translate-x-1 transition-transform">→</span>
+        </span>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+    <div class="flex flex-col md:flex-row gap-8">
+    <!-- Recent Recipes -->
+    <div class="flex-1">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="font-bold text-2xl text-purple-700 flex items-center gap-2">
+          <span class="text-2xl">📖</span> Recent Recipes
+          <span class="text-sm animate-pulse">✨</span>
+        </h2>
+        <%= link_to new_recipe_path, 
+            class: "group flex items-center gap-1 text-sm bg-purple-100 text-purple-600 px-4 py-1.5 rounded-full hover:bg-purple-200 transition-all duration-200 border border-purple-200 shadow-sm" do %>
+          <span>✨</span>
+          <span>New Recipe</span>
+          <span class="group-hover:translate-x-1 transition-transform">→</span>
+        <% end %>
+      </div>
+      
+      <div class="bg-white/80 backdrop-blur-sm shadow-lg rounded-xl divide-y divide-purple-100 border-2 border-purple-100 overflow-hidden">
+        <% @recent_recipes.each do |recipe| %>
+          <div class="p-4 flex justify-between items-center hover:bg-purple-50 transition-all duration-200 group">
+            <div class="flex-1">
+              <div class="flex items-center gap-2">
+                <span class="text-purple-300 group-hover:text-purple-400 transition-colors">📌</span>
+                <%= link_to recipe.title, recipe, class: "text-purple-600 hover:text-purple-800 font-medium transition-colors" %>
+              </div>
+              <p class="text-xs text-purple-400 ml-6"><%= recipe.product_type %></p>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-sm text-purple-300 bg-purple-50 px-2 py-1 rounded-full"><%= recipe.created_at.strftime("%b %d") %></span>
+              <%= link_to recipe, class: "text-purple-300 hover:text-purple-500 transition-colors" do %>
+                <span class="text-lg">→</span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        
+        <% if @recent_recipes.empty? %>
+          <div class="p-8 text-center bg-purple-50">
+            <span class="text-4xl block mb-3">📖✨</span>
+            <p class="text-purple-500 mb-4 font-medium">No recipes yet... time to create something magical!</p>
+            <%= link_to new_recipe_path, class: "inline-flex items-center gap-2 bg-purple-400 hover:bg-purple-500 text-white px-5 py-2 rounded-lg transition-all duration-200 shadow-sm" do %>
+              <span>✨</span>
+              <span>Create your first recipe</span>
+              <span>→</span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Recent Batches -->
+    <div class="flex-1">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="font-bold text-2xl text-purple-700 flex items-center gap-2">
+          <span class="text-2xl">🧪</span> Recent Batches
+          <span class="text-sm animate-pulse" style="animation-delay: 0.3s">✨</span>
+        </h2>
+        <%= link_to new_batch_path, 
+            class: "group flex items-center gap-1 text-sm bg-purple-100 text-purple-600 px-4 py-1.5 rounded-full hover:bg-purple-200 transition-all duration-200 border border-purple-200 shadow-sm" do %>
+          <span>✨</span>
+          <span>Log Batch</span>
+          <span class="group-hover:translate-x-1 transition-transform">→</span>
+        <% end %>
+      </div>
+      
+      <div class="bg-white/80 backdrop-blur-sm shadow-lg rounded-xl divide-y divide-purple-100 border-2 border-purple-100 overflow-hidden">
+        <% @recent_batches.each do |batch| %>
+          <div class="p-4 flex justify-between items-center hover:bg-purple-50 transition-all duration-200 group">
+            <div class="flex-1">
+              <div class="flex items-center gap-2">
+                <span class="text-purple-300 group-hover:text-purple-400 transition-colors">⚗️</span>
+                <p class="font-medium text-purple-700"><%= batch.recipe.title %></p>
+              </div>
+              <% if batch.notes.present? %>
+                <p class="text-xs text-purple-400 italic ml-6">"<%= batch.notes.truncate(35) %>"</p>
+              <% end %>
+            </div>
+            <div class="text-right flex items-center gap-2">
+              <span class="text-sm text-purple-300 bg-purple-50 px-2 py-1 rounded-full"><%= batch.made_on.strftime("%b %d") %></span>
+              <%= link_to batch, class: "text-purple-300 hover:text-purple-500 transition-colors flex items-center gap-1" do %>
+                <span class="text-xs">Details</span>
+                <span class="text-lg">→</span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        
+        <% if @recent_batches.empty? %>
+          <div class="p-8 text-center bg-purple-50">
+            <span class="text-4xl block mb-3">🧪✨</span>
+            <p class="text-purple-500 mb-4 font-medium">No batches yet... time to start experimenting!</p>
+            <%= link_to new_batch_path, class: "inline-flex items-center gap-2 bg-purple-400 hover:bg-purple-500 text-white px-5 py-2 rounded-lg transition-all duration-200 shadow-sm" do %>
+              <span class="text-xl">✨</span>
+              <span>Log your first batch</span>
+              <span class="text-purple-300 group-hover:translate-x-1 transition-transform">→</span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="mt-12 bg-gradient-to-r from-purple-100 via-pink-100 to-purple-100 p-8 rounded-2xl border-2 border-dashed border-purple-300 shadow-lg">
+    <h2 class="font-bold text-2xl mb-6 text-center text-purple-700 flex items-center justify-center gap-2">
+      <span>✨</span> Quick Actions <span>✨</span>
+    </h2>
+    
+    <div class="flex flex-wrap justify-center gap-4">
+      <%= link_to new_ingredient_path, class: "group bg-white border-2 border-purple-200 px-6 py-3 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 font-medium text-purple-600 hover:text-purple-700 hover:border-purple-300 flex items-center gap-2 hover:-translate-y-1" do %>
+        <span class="text-xl">🥥</span>
+        <span>Add Ingredient</span>
+        <span class="text-purple-300 group-hover:translate-x-1 transition-transform">→</span>
+      <% end %>
+      
+      <%= link_to new_inventory_item_path, class: "group bg-white border-2 border-purple-200 px-6 py-3 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 font-medium text-purple-600 hover:text-purple-700 hover:border-purple-300 flex items-center gap-2 hover:-translate-y-1" do %>
+        <span class="text-xl">🛍️</span>
+        <span>Record Purchase</span>
+        <span class="text-purple-300 group-hover:translate-x-1 transition-transform">→</span>
+      <% end %>
+      
+      <%= link_to new_recipe_path, class: "group bg-white border-2 border-purple-200 px-6 py-3 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 font-medium text-purple-600 hover:text-purple-700 hover:border-purple-300 flex items-center gap-2 hover:-translate-y-1" do %>
+        <span class="text-xl">📝</span>
+        <span>Create Recipe</span>
+        <span class="text-purple-300 group-hover:translate-x-1 transition-transform">→</span>
+      <% end %>
+      
+      <%= link_to new_batch_path, class: "group bg-white border-2 border-purple-200 px-6 py-3 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 font-medium text-purple-600 hover:text-purple-700 hover:border-purple-300 flex items-center gap-2 hover:-translate-y-1" do %>
+        <span class="text-xl">🧪</span>
+        <span>Log Production</span>
+        <span class="text-purple-300 group-hover:translate-x-1 transition-transform">→</span>
+      <% end %>
+    </div>
+    
+    <!-- Decorative footer -->
+    <div class="mt-6 text-center text-purple-300 text-sm">
+      ✦ ✦ ✦ ✦ ✦
+    </div>
+  </div>
+</div>
