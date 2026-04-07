@@ -68,4 +68,7 @@ group :test do
 end
 
 gem "foreman", "~> 0.90.0"
-gem "bcrypt", "~> 3.1.7"
+
+
+# For DigitalOcean Spaces (S3-compatible storage)
+gem "aws-sdk-s3", require: false
